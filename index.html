@@ -8,222 +8,272 @@
         :root {
             --primary-red: #d41d1d;
             --success-green: #28a745;
-            --gold: #ffd700;
-            --accent: #ff5722;
+            --bg-gradient: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%);
         }
 
-        /* සජීවී පසුබිම */
         body { 
+            background: var(--bg-gradient); 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            text-align: center; 
             margin: 0;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', 'Sinhala', sans-serif;
-            background: linear-gradient(-45deg, #ffcc00, #ff9900, #ee0979, #ff6a00);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            overflow-x: hidden;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Loading Screen */
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; z-index: 9999; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; transition: 0.5s;
+            overflow: hidden;
         }
 
         .container { 
-            background: rgba(255, 255, 255, 0.92); 
-            backdrop-filter: blur(15px);
-            padding: 40px 20px; 
-            border-radius: 40px; 
-            max-width: 480px; 
-            width: 85%;
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 40px; 
+            border-radius: 30px; 
+            max-width: 450px; 
+            width: 90%;
+            border: 4px solid var(--primary-red); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             position: relative;
             z-index: 10; 
-            text-align: center;
         }
-
-        .countdown {
-            display: grid; grid-template-columns: repeat(4, 1fr);
-            gap: 10px; margin: 25px 0;
-            background: rgba(0, 0, 0, 0.05); padding: 15px; border-radius: 20px;
-        }
-        .time-box { font-weight: 800; font-size: 1.2rem; color: #333; }
-        .time-box span { display: block; font-size: 0.65rem; color: var(--primary-red); }
 
         .rainbow-text {
-            font-size: 2.5rem; font-weight: 900;
-            background: linear-gradient(45deg, #f32121, #ff9800, #ffeb3b, #4caf50, #2196f3);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #ef5350, #f48fb1, #7e57c2, #2196f3, #26c6da, #43a047, #eeff41, #f9a825, #ff5722);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+            animation: rainbow-animation 5s linear infinite;
+            background-size: 400% 100%;
         }
+
+        @keyframes rainbow-animation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .year-text { color: var(--primary-red); font-size: 1.8rem; display: block; }
+        .subtitle { color: #555; margin-bottom: 25px; }
 
         .btn-main { 
-            background: var(--primary-red); color: white; padding: 18px 45px; 
-            border: none; border-radius: 100px; 
-            cursor: pointer; font-size: 1.2rem; font-weight: bold;
-            box-shadow: 0 10px 20px rgba(212, 29, 29, 0.3);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: var(--primary-red); 
+            color: white; padding: 18px 40px; 
+            border: none; border-radius: 50px; 
+            cursor: pointer; font-size: 1.3rem; font-weight: bold;
+            transition: 0.3s;
         }
-        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(212, 29, 29, 0.5); }
 
-        .choice-btns { margin-top: 30px; display: none; }
+        .choice-btns { margin-top: 30px; display: none; animation: fadeIn 0.5s; }
         .choice-btns button { 
-            margin: 10px; padding: 15px 35px; border-radius: 15px; border: none;
-            font-weight: bold; cursor: pointer; transition: 0.2s;
-        }
-        #yes-btn { background: var(--success-green); color: white; }
-        #no-btn { background: #555; color: white; }
-
-        /* Share Tools */
-        .tools-area { margin-top: 25px; display: none; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .tool-btn { 
-            padding: 10px 15px; border-radius: 10px; border: none; 
-            color: white; cursor: pointer; font-size: 0.9rem; font-weight: 600;
-        }
-        .whatsapp-btn { background: #25D366; }
-        .copy-btn { background: #333; }
-
-        .social-float { position: fixed; left: 20px; bottom: 20px; display: flex; gap: 15px; }
-        .social-icon { font-size: 1.5rem; text-decoration: none; filter: grayscale(1); transition: 0.3s; }
-        .social-icon:hover { filter: grayscale(0); transform: scale(1.2); }
-
-        /* Audio Control */
-        #mute-toggle {
-            position: fixed; top: 20px; right: 20px; background: white;
-            border-radius: 50%; width: 45px; height: 45px; display: flex;
-            align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: none; font-size: 1.2rem;
+            margin: 10px; padding: 15px 35px; 
+            cursor: pointer; font-size: 1.2rem; 
+            border-radius: 15px; border: none; font-weight: bold;
+            transition: 0.2s;
         }
 
-        .copyright { margin-top: 30px; font-size: 0.8rem; color: #666; cursor: pointer; }
+        #yes-btn { background-color: var(--success-green); color: white; }
+        #no-btn { background-color: #6c757d; color: white; }
 
-        /* Predictions Popup */
         .clear-result {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: white; padding: 30px; border-radius: 25px; z-index: 2000;
-            width: 80%; max-width: 350px; border-top: 8px solid var(--primary-red);
-            box-shadow: 0 0 100px rgba(0,0,0,0.5); animation: zoomIn 0.4s forwards;
+            position: fixed;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            max-width: 320px;
+            width: 85%;
+            font-weight: bold;
+            font-size: 1.05rem;
+            z-index: 1000;
+            pointer-events: none;
+            border: 4px solid var(--primary-red);
+            animation: popAndFloat 5.5s ease-in-out forwards;
+            line-height: 1.5;
         }
-        @keyframes zoomIn { from { opacity:0; transform: translate(-50%, -50%) scale(0.8); } to { opacity:1; transform: translate(-50%, -50%) scale(1); } }
+
+        .emoji {
+            position: absolute;
+            bottom: -50px;
+            font-size: 2.5rem;
+            user-select: none;
+            pointer-events: none;
+            z-index: 5;
+            animation: moveUp 3s linear forwards;
+        }
+
+        .copyright {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        /* Admin Panel Styling */
+        #admin-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.5);
+            z-index: 2000;
+            border: 2px solid #333;
+        }
+
+        @keyframes moveUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes popAndFloat {
+            0% { transform: scale(0) translateY(100px); opacity: 0; }
+            10% { transform: scale(1.1) translateY(0); opacity: 1; }
+            85% { transform: scale(1) translateY(-10px); opacity: 1; }
+            100% { transform: scale(0.5) translateY(-80px); opacity: 0; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
-
-    <div id="loader">
-        <div style="font-size: 50px; animation: pulse 1s infinite;">🏮</div>
-        <p style="font-weight: bold; color: #444;">සූදානම් වන්න...</p>
-    </div>
-
-    <button id="mute-toggle" onclick="toggleMute()">🔊</button>
+     
+  
 
     <div class="container">
         <div style="font-size: 60px;">🏮</div>
-        <h1 class="rainbow-text">AVURUDU 2026</h1>
+        <div class="rainbow-text">Aluth Avurudu</div>
+        <span class="year-text">2026</span>
+        <p class="subtitle">ඔබේ අනාගත වාසනාව බලමුද?</p>
         
-        <div class="countdown" id="timer">
-            <div class="time-box"><div id="days">00</div><span>DAYS</span></div>
-            <div class="time-box"><div id="hours">00</div><span>HRS</span></div>
-            <div class="time-box"><div id="mins">00</div><span>MINS</span></div>
-            <div class="time-box"><div id="secs">00</div><span>SECS</span></div>
-        </div>
-
-        <div id="intro">
-            <p style="color: #666; font-weight: 500;">ඔබේ අනාගතය දැනගැනීමට සූදානම්ද?</p>
-            <button class="btn-main" onclick="startPrediction()">සැකසීම අරඹන්න</button>
-        </div>
+        <button class="btn-main" id="main-btn" onclick="showChoices()">This is Your Year?</button>
 
         <div class="choice-btns" id="choices">
-            <p style="font-weight: bold;">Choose Your Fate:</p>
-            <button id="yes-btn" onclick="celebrate('yes')">YES (ඔව්)</button>
-            <button id="no-btn" onclick="celebrate('no')">NO (නැහැ)</button>
+            <p style="font-weight: bold;">SELECT YOUR ANSWER:</p>
+            <button id="yes-btn" onclick="celebrate('yes')">Yes</button>
+            <button id="no-btn" onclick="celebrate('no')">No</button>
         </div>
 
-        <div class="tools-area" id="tools">
-            <button class="tool-btn whatsapp-btn" onclick="shareWhatsApp()">Share 🟢</button>
-            <button class="tool-btn copy-btn" onclick="copyLink()">Copy Link 🔗</button>
-        </div>
-
-        <div class="copyright" ondblclick="adminAccess()">© CN Kodithuwakku</div>
+        <br>
+        <a style="cursor:pointer; color:var(--primary-red); font-weight:bold; text-decoration:none; font-size: 0.9rem;" onclick="location.reload()">TRY AGAIN ↺</a>
     </div>
 
-    <div class="social-float">
-        <a href="https://youtube.com/@ChathuraKodithuwakku-q1n" target="_blank" class="social-icon">🎬</a>
-        <a href="#" class="social-icon">📘</a>
+    <div id="admin-panel">
+        <h3>Admin Dashboard</h3>
+        <p>Total Page Views: <span id="view-count-display">0</span></p>
+        <button onclick="closeAdmin()" style="padding: 10px 20px; cursor: pointer; border-radius: 10px; border: 1px solid #ccc;">Close</button>
     </div>
 
-    <audio id="bg-music" loop src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+    <div class="copyright" ondblclick="openAdmin()">© CN Kodithuwakku</div>
 
     <script>
-        // Loader timeout
-        window.onload = () => { setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => document.getElementById('loader').remove(), 500); }, 1500); };
+        // View Count එක කළමනාකරණය
+        let views = localStorage.getItem('page_views');
+        if(views === null) {
+            views = 0;
+        }
+        views++;
+        localStorage.setItem('page_views', views);
 
-        // Timer
-        const target = new Date("April 14, 2026 00:00:00").getTime();
-        setInterval(() => {
-            const now = new Date().getTime();
-            const d = target - now;
-            document.getElementById('days').innerText = Math.floor(d / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('mins').innerText = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById('secs').innerText = Math.floor((d % (1000 * 60)) / 1000);
-        }, 1000);
-
-        // Sound Toggle
-        let isMuted = true;
-        function toggleMute() {
-            isMuted = !isMuted;
-            document.getElementById('mute-toggle').innerText = isMuted ? "🔇" : "🔊";
-            const music = document.getElementById('bg-music');
-            isMuted ? music.pause() : music.play();
+        function openAdmin() {
+            let pass = prompt("Enter Admin Passcode:");
+            if (pass === "1234") { // රහස් අංකය 1234 වේ
+                document.getElementById('view-count-display').innerText = localStorage.getItem('page_views');
+                document.getElementById('admin-panel').style.display = 'block';
+            } else {
+                alert("වැරදි මුද්‍රිත අංකයක්!");
+            }
         }
 
-        function startPrediction() {
-            document.getElementById('intro').style.display = 'none';
+        function closeAdmin() {
+            document.getElementById('admin-panel').style.display = 'none';
+        }
+
+        function showChoices() {
             document.getElementById('choices').style.display = 'block';
+            document.getElementById('main-btn').style.display = 'none';
+        }
+
+        function createEmoji(emojiSymbol) {
+            const emoji = document.createElement('div');
+            emoji.classList.add('emoji');
+            emoji.innerText = emojiSymbol;
+            emoji.style.left = Math.random() * 95 + "vw";
+            emoji.style.animationDuration = (Math.random() * 1.5 + 2) + "s";
+            document.body.appendChild(emoji);
+            setTimeout(() => { emoji.remove(); }, 3000);
+        }
+
+        function displayClearResult(text) {
+            const oldResults = document.querySelectorAll('.clear-result');
+            oldResults.forEach(r => r.remove());
+
+            const res = document.createElement('div');
+            res.classList.add('clear-result');
+            res.innerHTML = text;
+            
+            const isTop = Math.random() > 0.5;
+            res.style.top = isTop ? "8vh" : "75vh";
+            res.style.left = "50%";
+            res.style.transform = "translateX(-50%)";
+            res.style.marginLeft = "-160px";
+
+            document.body.appendChild(res);
+            setTimeout(() => { res.remove(); }, 5500);
         }
 
         function celebrate(type) {
-            document.getElementById('tools').style.display = 'flex';
-            const res = document.createElement('div');
-            res.className = 'clear-result';
+            const emojis = type === 'yes' ? ['❤️', '✨', '💎', '🌈', '🏆', '🔥', '💰', '🎓', '✈️', '🌟'] : ['😂', '🥥', '🐒', '🏃‍♂️', '💨', '🐜', '🌧️', '🙈', '🥣', '🤷‍♂️'];
             
-            const msg = type === 'yes' ? 
-                "🌟 <b>විශේෂ වාසනාවක්!</b><br>මේ වසරේ ඔබ ප්‍රාර්ථනා කරන සෑම දෙයක්ම සාර්ථක වීමට නියමිතයි!" : 
-                "😂 <b>පොඩි කේස් එකක්!</b><br>කිරිබත් කද්දී ගලක් හැපී දතක් බිඳීමට ඉඩ ඇත. පරෙස්සමෙන්!";
+            for(let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createEmoji(emojis[Math.floor(Math.random() * emojis.length)]);
+                }, i * 50);
+            }
+
+            const yesAnswers = [
+                "✨ <b>සුබ වසරක්!</b> <br>ඔබේ හීන පසුපස හඹා යන්න, මුළු ලෝකයම ඔබට මඟ කියාවි!",
+                "🏆 <b>ජයග්‍රහණයේ වසර!</b> <br>කැපවීමෙන් වැඩ කරන්න, මේ වසරේ ලොකුම වාසනාව ඔබටයි!",
+                "💎 <b>දිදුලන වසරක්!</b> <br>ඔබේ දක්ෂතාවයෙන් ලෝකයම දිනන වසරක් වේවා!",
+                "🌈 <b>දේදුන්නක් වැනි ජීවිතයක්!</b> <br>ප්‍රශ්න හමුවේ නොසැලී ඉදිරියටම යන්න!",
+                "🥇 <b>Number One!</b> <br>මේ අවුරුද්දේ හැම දෙයක්ම ඔබට අවශ්‍ය විදියටම සිද්ධ වෙයි!",
+                "💰 <b>ධන වාසනාව!</b> <br>ඔබ අත ගසන සෑම දෙයක්ම සාර්ථක වන ධනවත් වසරක් වේවා!",
+                "🎓 <b>විභාග ජය!</b> <br>අධ්‍යාපනයෙන් ලොව හෙල්ලීමට ඔබට ශක්තිය ලැබෙන වසරකි!",
+                "✈️ <b>විදේශ ගමන්!</b> <br>ඔබ මඟ බලා සිටි ඒ විදේශ ගමන මේ වසරේ සැබෑ වනු ඇත!",
+                "🏠 <b>පවුලේ සතුට!</b> <br>නිවසේ සතුට සහ සමගිය පිරී ඉතිරී යන කාලයක් උදා වේ!",
+                "🌟 <b>ජනප්‍රියත්වය!</b> <br>සමාජයේ කැපී පෙනෙන චරිතයක් ලෙස ඔබ බැබළෙන වසරකි!"
+            ];
             
-            res.innerHTML = `${msg}<br><br><button onclick="this.parentElement.remove()" style="padding:8px 20px; border-radius:10px; border:none; background:var(--primary-red); color:white; cursor:pointer;">Close</button>`;
-            document.body.appendChild(res);
-        }
+            const noAnswers = [
+                "🤣 <b>මරු පලාඵලයක්!</b> <br>මේ අවුරුද්දේ අවුරුදු උත්සවයේ කණාමුට්ටි බිඳින්නේ ඔබේ ඔළුවෙන්!",
+                "🥥 <b>මහා වාසනාවක්!</b> <br>නිවසේ පොල් ගැවීමේ වගකීම සම්පූර්ණයෙන්ම ඔබට හිමිවේ!",
+                "🏃‍♂️ <b>පරෙස්සමෙන්!</b> <br>ගෝනි රේස් එක දුවද්දී කකුල පැටලී ඇද වැටීමට නියමිතයි!",
+                "🐒 <b>අලුත් ආරංචියක්!</b> <br>ඔබ මේ වසරේදී අවිවාහක වඳුරු හමුදාවක නායකයා ලෙස පත්වේ!",
+                "💨 <b>පොඩි ප්‍රශ්නයක්!</b> <br>කොණ්ඩ කැවුම් කද්දී පැණි බෙරී ඇඳුම කැත වීමට නියමිතයි!",
+                "🙈 <b>අප්පටසිරි!</b> <br>ඔබේ ක්‍රෂ් එක මේ අවුරුද්දේ ඔබව 'පොල් බූරුවා' කියා අමතනු ඇත!",
+                "🐜 <b>කඩිසර බව!</b> <br>ඔබේ ආහාර පිඟානට මේ වසරේ කඩි කුලකයක් සංක්‍රමණය වනු ඇත!",
+                "🌧️ <b>කාලගුණ වාර්තාව!</b> <br>අවුරුදු නෑගම් යන සෑම දිනකම ඔබට මහා වැස්සකට තෙමීමට සිදුවේ!",
+                "🥣 <b>පොඩි කේස් එකක්!</b> <br>කිරිබත් කද්දී ගලක් හැපී දතක් බිඳීමට ඉඩ ඇත!",
+                "🤷‍♂️ <b>වෙලාව තමයි!</b> <br>මේ වසර පුරාම අනුන්ගේ විවාහ මංගල්‍යවල වීඩියෝ කිරීමට ඔබට සිදුවේ!"
+            ];
 
-        function shareWhatsApp() {
-            const url = window.location.href;
-            window.open(`https://wa.me/?text=මම මගේ අවුරුදු වාසනාව බැලුවා! ඔයත් බලන්න: ${url}`);
+            const list = (type === 'yes') ? yesAnswers : noAnswers;
+            const finalResult = list[Math.floor(Math.random() * list.length)];
+            
+            displayClearResult(finalResult);
         }
-
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("Link Copied!");
-        }
-
-        function adminAccess() {
-            const p = prompt("Admin Pass:");
-            if(p === "1234") alert("Total Views: " + (localStorage.getItem('page_views') || 1));
-        }
-
-        // View counter logic
-        let v = localStorage.getItem('page_views') || 0;
-        v++; localStorage.setItem('page_views', v);
     </script>
 </body>
-</html>
+</html>        
+         
+           
+  
+  
