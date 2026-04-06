@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avurudu Predictor 2026 | CN Kodithuwakku</title>
+    <style>
+        :root {
+            --primary-red: #d41d1d;
+            --success-green: #28a745;
+            --gold: #ffd700;
+            --accent: #ff5722;
+        }
+
+        /* සජීවී පසුබිම */
+        body { 
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', 'Sinhala', sans-serif;
+            background: linear-gradient(-45deg, #ffcc00, #ff9900, #ee0979, #ff6a00);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; z-index: 9999; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; transition: 0.5s;
+        }
+
+        .container { 
+            background: rgba(255, 255, 255, 0.92); 
+            backdrop-filter: blur(15px);
+            padding: 40px 20px; 
+            border-radius: 40px; 
+            max-width: 480px; 
+            width: 85%;
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            position: relative;
+            z-index: 10; 
+            text-align: center;
+        }
+
+        .countdown {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 10px; margin: 25px 0;
+            background: rgba(0, 0, 0, 0.05); padding: 15px; border-radius: 20px;
+        }
+        .time-box { font-weight: 800; font-size: 1.2rem; color: #333; }
+        .time-box span { display: block; font-size: 0.65rem; color: var(--primary-red); }
+
+        .rainbow-text {
+            font-size: 2.5rem; font-weight: 900;
+            background: linear-gradient(45deg, #f32121, #ff9800, #ffeb3b, #4caf50, #2196f3);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .btn-main { 
+            background: var(--primary-red); color: white; padding: 18px 45px; 
+            border: none; border-radius: 100px; 
+            cursor: pointer; font-size: 1.2rem; font-weight: bold;
+            box-shadow: 0 10px 20px rgba(212, 29, 29, 0.3);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(212, 29, 29, 0.5); }
+
+        .choice-btns { margin-top: 30px; display: none; }
+        .choice-btns button { 
+            margin: 10px; padding: 15px 35px; border-radius: 15px; border: none;
+            font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        #yes-btn { background: var(--success-green); color: white; }
+        #no-btn { background: #555; color: white; }
+
+        /* Share Tools */
+        .tools-area { margin-top: 25px; display: none; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .tool-btn { 
+            padding: 10px 15px; border-radius: 10px; border: none; 
+            color: white; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+        }
+        .whatsapp-btn { background: #25D366; }
+        .copy-btn { background: #333; }
+
+        .social-float { position: fixed; left: 20px; bottom: 20px; display: flex; gap: 15px; }
+        .social-icon { font-size: 1.5rem; text-decoration: none; filter: grayscale(1); transition: 0.3s; }
+        .social-icon:hover { filter: grayscale(0); transform: scale(1.2); }
+
+        /* Audio Control */
+        #mute-toggle {
+            position: fixed; top: 20px; right: 20px; background: white;
+            border-radius: 50%; width: 45px; height: 45px; display: flex;
+            align-items: center; justify-content: center; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: none; font-size: 1.2rem;
+        }
+
+        .copyright { margin-top: 30px; font-size: 0.8rem; color: #666; cursor: pointer; }
+
+        /* Predictions Popup */
+        .clear-result {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; padding: 30px; border-radius: 25px; z-index: 2000;
+            width: 80%; max-width: 350px; border-top: 8px solid var(--primary-red);
+            box-shadow: 0 0 100px rgba(0,0,0,0.5); animation: zoomIn 0.4s forwards;
+        }
+        @keyframes zoomIn { from { opacity:0; transform: translate(-50%, -50%) scale(0.8); } to { opacity:1; transform: translate(-50%, -50%) scale(1); } }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div style="font-size: 50px; animation: pulse 1s infinite;">🏮</div>
+        <p style="font-weight: bold; color: #444;">සූදානම් වන්න...</p>
+    </div>
+
+    <button id="mute-toggle" onclick="toggleMute()">🔊</button>
+
+    <div class="container">
+        <div style="font-size: 60px;">🏮</div>
+        <h1 class="rainbow-text">AVURUDU 2026</h1>
+        
+        <div class="countdown" id="timer">
+            <div class="time-box"><div id="days">00</div><span>DAYS</span></div>
+            <div class="time-box"><div id="hours">00</div><span>HRS</span></div>
+            <div class="time-box"><div id="mins">00</div><span>MINS</span></div>
+            <div class="time-box"><div id="secs">00</div><span>SECS</span></div>
+        </div>
+
+        <div id="intro">
+            <p style="color: #666; font-weight: 500;">ඔබේ අනාගතය දැනගැනීමට සූදානම්ද?</p>
+            <button class="btn-main" onclick="startPrediction()">සැකසීම අරඹන්න</button>
+        </div>
+
+        <div class="choice-btns" id="choices">
+            <p style="font-weight: bold;">Choose Your Fate:</p>
+            <button id="yes-btn" onclick="celebrate('yes')">YES (ඔව්)</button>
+            <button id="no-btn" onclick="celebrate('no')">NO (නැහැ)</button>
+        </div>
+
+        <div class="tools-area" id="tools">
+            <button class="tool-btn whatsapp-btn" onclick="shareWhatsApp()">Share 🟢</button>
+            <button class="tool-btn copy-btn" onclick="copyLink()">Copy Link 🔗</button>
+        </div>
+
+        <div class="copyright" ondblclick="adminAccess()">© CN Kodithuwakku</div>
+    </div>
+
+    <div class="social-float">
+        <a href="https://youtube.com/@ChathuraKodithuwakku-q1n" target="_blank" class="social-icon">🎬</a>
+        <a href="#" class="social-icon">📘</a>
+    </div>
+
+    <audio id="bg-music" loop src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+
+    <script>
+        // Loader timeout
+        window.onload = () => { setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => document.getElementById('loader').remove(), 500); }, 1500); };
+
+        // Timer
+        const target = new Date("April 14, 2026 00:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const d = target - now;
+            document.getElementById('days').innerText = Math.floor(d / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('mins').innerText = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('secs').innerText = Math.floor((d % (1000 * 60)) / 1000);
+        }, 1000);
+
+        // Sound Toggle
+        let isMuted = true;
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById('mute-toggle').innerText = isMuted ? "🔇" : "🔊";
+            const music = document.getElementById('bg-music');
+            isMuted ? music.pause() : music.play();
+        }
+
+        function startPrediction() {
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('choices').style.display = 'block';
+        }
+
+        function celebrate(type) {
+            document.getElementById('tools').style.display = 'flex';
+            const res = document.createElement('div');
+            res.className = 'clear-result';
+            
+            const msg = type === 'yes' ? 
+                "🌟 <b>විශේෂ වාසනාවක්!</b><br>මේ වසරේ ඔබ ප්‍රාර්ථනා කරන සෑම දෙයක්ම සාර්ථක වීමට නියමිතයි!" : 
+                "😂 <b>පොඩි කේස් එකක්!</b><br>කිරිබත් කද්දී ගලක් හැපී දතක් බිඳීමට ඉඩ ඇත. පරෙස්සමෙන්!";
+            
+            res.innerHTML = `${msg}<br><br><button onclick="this.parentElement.remove()" style="padding:8px 20px; border-radius:10px; border:none; background:var(--primary-red); color:white; cursor:pointer;">Close</button>`;
+            document.body.appendChild(res);
+        }
+
+        function shareWhatsApp() {
+            const url = window.location.href;
+            window.open(`https://wa.me/?text=මම මගේ අවුරුදු වාසනාව බැලුවා! ඔයත් බලන්න: ${url}`);
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link Copied!");
+        }
+
+        function adminAccess() {
+            const p = prompt("Admin Pass:");
+            if(p === "1234") alert("Total Views: " + (localStorage.getItem('page_views') || 1));
+        }
+
+        // View counter logic
+        let v = localStorage.getItem('page_views') || 0;
+        v++; localStorage.setItem('page_views', v);
+    </script>
+</body>
+</html>
